@@ -45,3 +45,4 @@ To test, follow the README.md instructions in the tests folder.
 
 - [ ] Complete readme with relevant codebase and examples
 - [ ] Refactor code to be more generalized and clean
+- [ ] Write tests
