@@ -1,13 +1,13 @@
 import os
 import lightning as L
 from lightning_app.components.serve import ServeGradio
-from lightning_app.components.python import TracerPythonScript
 from evidently_data_analysis import EvidentlyDataAnalysis
 from evidently_model_analysis import EvidentlyModelAnalysis
-# from lightning.app.frontend.web import StaticWebFrontend
 import gradio as gr
-from components.components import StaticPageViewer, ModelTrainer
-from components.utils import construct_pred_file_names
+from data_centric_ml import StaticPageViewer, ModelTrainer
+from lightning.app.storage.path import Path
+import tempfile
+from shutil import copy2
 
 class LitGradio(ServeGradio):
 
@@ -18,9 +18,14 @@ class LitGradio(ServeGradio):
                 gr.inputs.Textbox(label='Enter target column name')
             ]
     outputs = gr.outputs.Textbox(label='output')
+    examples = [
+        ['resources/ba_cancer_train.csv', 'resources/ba_cancer_test.csv', 'classification', 'target'],
+        ['resources/ca_housing_train.csv', 'resource/ca_housing_test.csv', 'regression', 'MedHouseVal']
+        ]
 
     def __init__(self):
         super().__init__(parallel=True)
+        self.data_dir = Path(tempfile.mkdtemp())
         self.train_file_path = None
         self.test_file_path = None
         self.task_type = None
@@ -28,8 +33,14 @@ class LitGradio(ServeGradio):
 
     def predict(self, train_file, test_file, task_type, target_column_name):
         # set paths of files to class variables for other components to use
-        self.train_file_path = train_file.name
-        self.test_file_path = test_file.name
+        # get file names
+        train_file_name = os.path.split(train_file.name)[-1]
+        test_file_name = os.path.split(test_file.name)[-1]
+        # copy to our storage path
+        copy2(train_file.name, self.data_dir)
+        copy2(test_file.name, self.data_dir)
+        self.train_file_path = os.path.join(self.data_dir, train_file_name)
+        self.test_file_path = os.path.join(self.data_dir, test_file_name)
         self.task_type = task_type
         self.target_column_name = target_column_name
         return "Files Submitted for processing, switch to the next tab to see the outputs"
@@ -47,17 +58,13 @@ class RootFlow(L.LightningFlow):
         self.test_pred_file_path = None
         self.prediction_column_name = None
         self.trained_model_path = None
+        self.train_df = None
 
         self.lit_gradio = LitGradio()
         self.evidently_data_analysis = EvidentlyDataAnalysis() # default setting to be changed later
 
         self.data_report_viewer = StaticPageViewer(self.evidently_data_analysis.report_parent_path)
 
-        self.python_script = TracerPythonScript(
-            script_path='train_model.py',
-            script_args=[],
-            parallel=True
-        )
 
         self.model_trainer = ModelTrainer()
 

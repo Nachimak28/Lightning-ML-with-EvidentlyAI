@@ -1,4 +1,3 @@
-from data_centric_ml.components.component_a import ComponentA
-from data_centric_ml.components.component_b import ComponentB
+from data_centric_ml.components.components import StaticPageViewer, ModelTrainer
 
-__all__ = ["ComponentA", "ComponentB"]
+__all__ = ["StaticPageViewer", "ModelTrainer"]

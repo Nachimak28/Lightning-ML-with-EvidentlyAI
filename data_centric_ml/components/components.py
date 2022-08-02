@@ -1,7 +1,8 @@
 import os
+import tempfile
 import lightning as L
 from lightning.app.frontend.web import StaticWebFrontend
-from lightning_app.components.python import TracerPythonScript
+from lightning.app.storage.path import Path
 import joblib
 import pandas as pd
 from sklearn.ensemble import RandomForestRegressor, RandomForestClassifier
@@ -26,6 +27,7 @@ class ModelTrainer(L.LightningWork):
         
         super().__init__(parallel=parallel)
 
+        self.data_dir = Path(tempfile.mkdtemp())
         self.train_dataframe_path = train_dataframe_path
         self.test_dataframe_path = test_dataframe_path
         self.target_column_name = target_column_name
@@ -56,7 +58,7 @@ class ModelTrainer(L.LightningWork):
         model.fit(train_df[feature_columns], train_df[self.target_column_name])
 
         # saving trained model just in case
-        model_filename = f'Finalized_model_{self.task_type}.sav'
+        model_filename = os.path.join(self.data_dir, f'Finalized_model_{self.task_type}.sav')
         joblib.dump(model, model_filename)
         
 
@@ -68,8 +70,8 @@ class ModelTrainer(L.LightningWork):
         train_df_parent_dir, train_pred_file_path = construct_pred_file_names(self.train_dataframe_path)
         test_df_parent_dir, test_pred_file_path = construct_pred_file_names(self.test_dataframe_path)
 
-        self.train_dataframe_path_with_preds = os.path.join(train_df_parent_dir, train_pred_file_path)
-        self.test_dataframe_path_with_preds = os.path.join(test_df_parent_dir, test_pred_file_path)
+        self.train_dataframe_path_with_preds = os.path.join(self.data_dir, train_pred_file_path)
+        self.test_dataframe_path_with_preds = os.path.join(self.data_dir, test_pred_file_path)
         
         # save files with preds
         train_df.to_csv(self.train_dataframe_path_with_preds, index=False)

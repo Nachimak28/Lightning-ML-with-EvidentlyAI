@@ -53,13 +53,15 @@ lightning install app https://github.com/Nachimak28/Lightning-ML-with-EvidentlyA
 Once the app is installed, run it locally with:
 
 ```bash
-lightning run app data_centric_ml/app.py
+cd Lightning-ML-with-EvidentlyAI
+lightning run app app.py
 ```
 
 Run it on the [lightning cloud](lightning.ai) with:
 
 ```bash
-lightning run app data_centric_ml/app.py --cloud
+cd Lightning-ML-with-EvidentlyAI
+lightning run app app.py --cloud
 ```
 
 ## to test and link
