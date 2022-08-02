@@ -124,6 +124,7 @@ lightning_logs
 
 MNIST
 *.pt
+*.sav
 .storage/
 .shared/
 infra

@@ -72,8 +72,8 @@ class ModelTrainer(L.LightningWork):
         self.test_dataframe_path_with_preds = os.path.join(test_df_parent_dir, test_pred_file_path)
         
         # save files with preds
-        train_df.to_csv(self.train_dataframe_path_with_preds)
-        test_df.to_csv(self.test_dataframe_path_with_preds)
+        train_df.to_csv(self.train_dataframe_path_with_preds, index=False)
+        test_df.to_csv(self.test_dataframe_path_with_preds, index=False)
 
         # assign model at last to signal other component that its ready for serving
         self.model_file_path = model_filename

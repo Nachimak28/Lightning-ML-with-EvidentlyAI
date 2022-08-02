@@ -24,7 +24,7 @@ class LitGradio(ServeGradio):
         self.train_file_path = None
         self.test_file_path = None
         self.task_type = None
-        self.target_column_name = target_column_name
+        self.target_column_name = None
 
     def predict(self, train_file, test_file, task_type, target_column_name):
         # set paths of files to class variables for other components to use
