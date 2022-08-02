@@ -8,6 +8,9 @@ lightning init app data_centric_ml
 # Note: I've changed the name of the github repo but this shall work regardless
 ```
 
+## Note:
+While running this app locally, it works as expected but breaks down in the cloud. Please refrain from running it with the --cloud flag.
+
 ## Demo output
 
 This app is basically a demo to show a UI based ML workflow. 
@@ -17,8 +20,6 @@ This app is basically a demo to show a UI based ML workflow.
 * User inputs the label/target column name andd submits files for processing.
 
 Demo video showing the process:
-
-
 
 https://user-images.githubusercontent.com/23210132/182327240-33cadaff-3a6c-4aae-bf81-45cf49f7a5aa.mp4
 
