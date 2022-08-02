@@ -9,7 +9,7 @@ setup(
     author="Nachiket Makwana",
     author_email="nachimak28@gmail.com",
     # REPLACE WITH YOUR OWN GITHUB PROJECT LINK
-    url="https://github.com/Lightning-AI/lightning-app-template",
+    url="https://github.com/Nachimak28/Lightning-ML-with-EvidentlyAI",
     install_requires=[],
     packages=find_packages(),
 )
