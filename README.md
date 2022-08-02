@@ -22,7 +22,7 @@ Demo video showing the process:
 
 https://user-images.githubusercontent.com/23210132/182327240-33cadaff-3a6c-4aae-bf81-45cf49f7a5aa.mp4
 
-Note: My PC's Chrome loads blank pages sometimes and hence I had to refresh multiple times in the video, the video isn't edited and recorded perfectly and just forward through it to get to the interesting parts. 
+Note: My PC's Chrome loads blank pages sometimes and hence I had to refresh multiple times in the video, the video isn't edited perfectly and just forward through it to get to the interesting parts. 
 
 **What happens under the hood ?**
 * The app ingests the files and generates an EvidentlyAI based Data analysis dashboard to understand the data drift and general feature analytics plotted in an easily interpretable way
